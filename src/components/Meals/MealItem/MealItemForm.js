@@ -1,27 +1,36 @@
 import { useState, useRef } from 'react';
 import Input from '../../UI/Input';
 import classes from './MealItemForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MealItemForm = (props) => {
 
+  const dispatch = useDispatch();
+
   const amountInputRef = useRef();
   const [amountIsValid, setAmountIsValid] = useState(true);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
 
   const submitHandler = e => {
     e.preventDefault();
-    const enteredAmount = amountInputRef.current.value;
-    const enteredAmountNumber = +enteredAmount;
+    if(isLoggedIn){
+      const enteredAmount = amountInputRef.current.value;
+      const enteredAmountNumber = +enteredAmount;
 
-    if (
-      enteredAmount.trim().length === 0 ||
-      enteredAmountNumber < 1 ||
-      enteredAmountNumber > 5
-    ) {
-      setAmountIsValid(false);
-      return;
+      if (
+        enteredAmount.trim().length === 0 ||
+        enteredAmountNumber < 1 ||
+        enteredAmountNumber > 5
+      ) {
+        setAmountIsValid(false);
+        return;
+      }
+
+      props.onAddToCart(enteredAmountNumber);
     }
-
-    props.onAddToCart(enteredAmountNumber);
+    else{
+      alert('Please login');
+    }
   }
   return (
     <form className={classes.form} onSubmit={submitHandler}>
