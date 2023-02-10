@@ -1,11 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../UI/Modal";
 import LoginForm from "./LoginForm";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
-const isEmpty = value => value.trim() === '';
-const isNotSixChar = value => value.trim().length !== 6;
 
 const Login = (props) => {
     const [users, setUsers] = useState([]);

@@ -1,11 +1,9 @@
 import { useState, useRef } from 'react';
 import Input from '../../UI/Input';
 import classes from './MealItemForm.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const MealItemForm = (props) => {
-
-  const dispatch = useDispatch();
 
   const amountInputRef = useRef();
   const [amountIsValid, setAmountIsValid] = useState(true);

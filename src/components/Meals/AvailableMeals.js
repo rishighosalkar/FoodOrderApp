@@ -3,7 +3,7 @@ import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
 import { useEffect, useState } from 'react';
 
-const DUMMY_MEALS = [
+/*const DUMMY_MEALS = [
   {
     id: 'm1',
     name: 'Sushi',
@@ -28,7 +28,7 @@ const DUMMY_MEALS = [
     description: 'Healthy...and green...',
     price: 18.99,
   },
-];
+];*/
 
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);

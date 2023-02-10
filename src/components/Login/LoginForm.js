@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import classes from './Login.module.css';
 
 const isEmpty = value => value.trim() === '';
-const isNotSixChar = value => value.trim().length !== 6;
 
 const LoginForm = (props) => {
     const [formValidity, setFormValidity] = useState({
@@ -60,7 +59,7 @@ const LoginForm = (props) => {
             </div>
             <div className={addressControlClass}>
                 <label htmlFor='password'>Password</label>
-                <input type='text' id='password' ref={passwordInputRef}/>
+                <input type='password' id='password' ref={passwordInputRef}/>
                 {!formValidity.password && <p>Please enter a valid address</p>}
             </div>
             <div className={classes.actions}>
