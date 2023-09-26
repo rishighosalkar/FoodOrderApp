@@ -34,6 +34,12 @@
   transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
 }
 
+a:hover,
+a.active {
+  color: var(--color-primary-800);
+  text-decoration: none;
+}
+
 @media screen and (max-width: 600px){
   .header {
     width: 100%;

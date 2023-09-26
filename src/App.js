@@ -1,46 +1,61 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
 import Cart from './components/Cart/Cart';
 import CartProvider from './store/CartProvider';
-import Login from './components/Login/Login';
+import LoginSignUp from './components/LoginSignup/LoginSignupPage';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import RootLayout from './Pages/Root';
+import Homepage from './Pages/Homepage';
+import RestaurantMeals from './components/RestaurantMeals/RestaurantMeals';
+import RestaurantSignup from './components/Signup/Restaurant/RestaurantSignup';
 
 function App() {
-  const [cartIsShown, setCartIsShown] = useState(false);
-  const [loginIsShown, setLoginIsShown] = useState(false);
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
-  const showCartHandler = () => {
-    if(!isLoggedIn)
+
+  const router = createBrowserRouter([
     {
-      alert('Login first');
-      return;
+      path: '/',
+      element: <RootLayout />,
+      children: [
+        {
+          index: true,
+          element: <Homepage />
+        },
+        {
+          path: 'login',
+          element: <LoginSignUp />
+        },
+        {
+          path: 'restaurant',
+          element: <RestaurantMeals />
+        },
+        {
+          path: 'meals',
+          element: <Meals />
+        },
+        {
+          path: 'cart',
+          element: <Cart />
+        },
+        {
+          path: 'restaurant-signup',
+          element: <RestaurantSignup />
+        }
+      ]
     }
-    setCartIsShown(true);
-  };
-
-  const hideCartHandler = () => {
-    setCartIsShown(false);
-  };
-
-  const showLoginHandler = () => {
-    setLoginIsShown(true);
-  }
-
-  const hideLoginHandler = () => {
-    setLoginIsShown(false);
-  }
+  ]);
 
   return (
     <CartProvider>
-      {cartIsShown && (!loginIsShown) && <Cart onClose={hideCartHandler} />}
+      {/* {cartIsShown && (!loginIsShown) && <Cart onClose={hideCartHandler} />}
       {loginIsShown && (!cartIsShown) && <Login onClose={hideLoginHandler} />}
-      <Header onShowCart={showCartHandler} onShowLogin={showLoginHandler} />
+      {loginSignupIsShown && (!cartIsShown) && <LoginSignUp onClose={hideLoginSignupHandler} />}
+      <Header onShowCart={showCartHandler} onShowLogin={showLoginHandler} onShowLoginSignup={showLoginSignupHandler} />
       <main>
         <Meals />
-      </main>
+      </main> */}
+      <RouterProvider router={router} />
     </CartProvider>
   );
 }
+
 
 export default App;

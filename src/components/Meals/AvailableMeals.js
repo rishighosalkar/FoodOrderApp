@@ -1,7 +1,8 @@
 import Card from '../UI/Card';
-import MealItem from './MealItem/MealItem';
+import MealItem from '../MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 /*const DUMMY_MEALS = [
   {
@@ -36,13 +37,16 @@ const AvailableMeals = () => {
   const [httpError, setHttpError] = useState();
   useEffect(()=>{
     const fetchMeals = async ()=>{
-      const response = await fetch('https://food-order-app-24c9e-default-rtdb.firebaseio.com/meals.json')
-                .then();
-      if(!response.ok){
-        throw new Error('Something went wrong');
-      }
-      const responseData = await response.json();
+      const res = await axios.get('https://localhost:7053/meals/getAllMeals')
+                            .catch(e => console.log(e));
+      // const response = await fetch('https://food-order-app-24c9e-default-rtdb.firebaseio.com/meals.json')
+      //           .then();
+      // if(!response.ok){
+      //   throw new Error('Something went wrong');
+      // }
+      // const responseData = await response.json();
 
+      const responseData = res.data.meals;
       const loadedMeals = [];
 
       for(const key in responseData)
@@ -51,7 +55,9 @@ const AvailableMeals = () => {
           id: key,
           name: responseData[key].name,
           description: responseData[key].description,
-          price: responseData[key].price
+          price: responseData[key].price,
+          restaurantId: responseData[key].restaurantId,
+          restaurantName: responseData[key].restaurantName
         })
       }
 
@@ -85,6 +91,9 @@ const AvailableMeals = () => {
       name={meal.name}
       description={meal.description}
       price={meal.price}
+      restaurantId={meal.restaurantId}
+      restaurantName={meal.restaurantName}
+      isForRestaurant={false}
     />
   ));
 

@@ -1,7 +1,6 @@
 .form {
     margin: 1rem 0;
-    height: 21rem;
-    margin-top: 3rem;
+    height: 37rem;
     /* overflow: auto; */
   }
   
@@ -62,9 +61,4 @@
   .invalid input {
     border-color: #aa0b20;
     background-color: #ffeff1;
-  }
-
-  .clickhere:hover {
-    cursor: pointer;
-    text-decoration: underline;
   }

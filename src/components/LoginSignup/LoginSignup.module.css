@@ -1,0 +1,8 @@
+.header {
+    text-align: center;
+    justify-content: center;
+}
+
+.action:hover{
+    cursor: pointer;
+}
