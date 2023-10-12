@@ -11,11 +11,6 @@ const RestaurantSignupForm = (props) => {
         description: true,
         startTime: true,
         endTime: true,
-        mealName: true,
-        mealDesc: true,
-        mealPrice: true,
-        mealCategory: true,
-        mealSubCategory: true,
         password: true,
         confirmPassword: true,
         phone: true,
@@ -40,12 +35,6 @@ const RestaurantSignupForm = (props) => {
     const descInputRef = useRef();
     const startTimeInputRef = useRef();
     const endTimeInputRef = useRef();
-    const mealNameInputRef = useRef();
-    const mealDescInputRef = useRef();
-    const mealPriceInputRef = useRef();
-    const mealCategoryInputRef = useRef();
-    const mealSubCategoryInputRef = useRef();
-
     
     const confirmHandler = (event) => {
         event.preventDefault();
@@ -64,11 +53,6 @@ const RestaurantSignupForm = (props) => {
         const enteredCountry = countryInputRef.current.value;
         const enteredStartTime = startTimeInputRef.current.value;
         const enteredEndTime = endTimeInputRef.current.value;
-        const enteredMealName = mealNameInputRef.current.value;
-        const enteredMealDesc = mealDescInputRef.current.value;
-        const enteredMealPrice = mealPriceInputRef.current.value;
-        const enteredMealCategory = mealCategoryInputRef.current.value;
-        const enteredmealSubCategory = mealSubCategoryInputRef.current.value;
         
         //alert('Meal Subcategory Category Value: ' + enteredmealSubCategory);
         const enteredUsernameIsValid = !isEmpty(enteredUsername);
@@ -110,13 +94,8 @@ const RestaurantSignupForm = (props) => {
             postalCode: enteredPostalCode,
             country: enteredCountry
         }
-        const meals = [{
-            name: enteredMealName,
-            description: enteredMealDesc,
-            price: enteredMealPrice,
-            categoryId: enteredMealCategory,
-            subcategoryId: enteredmealSubCategory
-        }]
+        const meals = []
+
         const newRestaurant = {
             restaurantUsername: enteredUsername,
             restaurantEmail: enteredEmail,
@@ -136,7 +115,7 @@ const RestaurantSignupForm = (props) => {
     const nameControlClass = `${classes.control } ${formValidity.name ? '': classes.invalid}`
     const addressControlClass = `${classes.control } ${formValidity.address ? '': classes.invalid}`
     return (
-        <form className={classes.form} onSubmit={confirmHandler}>
+        <form className={classes.form}  onSubmit={confirmHandler}>
             <Collapse heading='Restaurant Details'>
             <div className={nameControlClass}>
                     <label htmlFor='username'>Username</label>
@@ -182,43 +161,6 @@ const RestaurantSignupForm = (props) => {
                     <label htmlFor='confirmpassword'>Confirm Password</label>
                     <input type='password' id='confirmpassword' ref={confirmPasswordInputRef}/>
                     {!formValidity.confirmPassword && <p>Please enter a valid password</p>}
-                </div>
-            </Collapse>
-            <Collapse heading='Meal'>
-                <div className={nameControlClass}>
-                    <label htmlFor='mealName'>Meal Name</label>
-                    <input type='text' id='mealName' ref={mealNameInputRef}/>
-                    {!formValidity.mealName && <p>Please enter a valid meal name</p>}
-                </div>
-                <div className={nameControlClass}>
-                    <label htmlFor='mealPrice'>Meal Price</label>
-                    <input type='number' id='mealPrice' ref={mealPriceInputRef}/>
-                    {!formValidity.mealPrice && <p>Please enter a valid meal price</p>}
-                </div>
-                <div className={nameControlClass}>
-                    <label htmlFor='mealDesc'>Meal Description</label>
-                    <input type='text' id='mealDesc' ref={mealDescInputRef}/>
-                    {!formValidity.mealDesc && <p>Please enter a valid meal description</p>}
-                </div>
-                <div className={nameControlClass}>
-                    <select htmlFor='mealCategory' id='mealCategory' ref={mealCategoryInputRef}>
-                        <option value='1'>Veg</option>
-                        <option value='2'>Non Veg</option>
-                    </select>
-                    {!formValidity.mealCategory && <p>Please enter a valid meal category</p>}
-                </div>
-                <div className={nameControlClass}>
-                    <select htmlFor='mealSubCategory' id='mealSubCategory' ref={mealSubCategoryInputRef}>
-                        <option>Select Sub Category</option>
-                        {props.subCategory.map((subCat) => {
-                            return <option key={subCat.id} value={subCat.id}>
-                                {subCat.type}
-                            </option>
-                        })}
-                    </select>
-                    {/* <label htmlFor='mealSubCategory'>Please describe the category</label>
-                    <input type='text' id='mealSubCategory' ref={mealSubCategoryInputRef}/> */}
-                    {!formValidity.mealSubCategory && <p>Please enter a valid meal sub category</p>}
                 </div>
             </Collapse>
             <Collapse heading='Address' >

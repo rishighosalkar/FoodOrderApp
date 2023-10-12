@@ -1,12 +1,15 @@
 import Meals from './components/Meals/Meals';
 import Cart from './components/Cart/Cart';
 import CartProvider from './store/CartProvider';
-import LoginSignUp from './components/LoginSignup/LoginSignupPage';
+import LoginSignUp from './components/User/LoginSignup/LoginSignupPage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './Pages/Root';
 import Homepage from './Pages/Homepage';
 import RestaurantMeals from './components/RestaurantMeals/RestaurantMeals';
-import RestaurantSignup from './components/Signup/Restaurant/RestaurantSignup';
+import RestaurantSignup from './components/Restaurant/Signup/RestaurantSignup';
+import RestaurantRootLayout from './Pages/RestaurantRoot';
+import RestaurantMainNavigation from './Pages/RestaurantMainNavigation';
+import RestaurantHomepage from './Pages/RestaurantHomePage';
 
 function App() {
 
@@ -24,7 +27,7 @@ function App() {
           element: <LoginSignUp />
         },
         {
-          path: 'restaurant',
+          path: 'restaurant-meals',
           element: <RestaurantMeals />
         },
         {
@@ -35,9 +38,24 @@ function App() {
           path: 'cart',
           element: <Cart />
         },
+        
+      ]
+    },
+    {
+      path: '/restaurant',
+      element: <RestaurantRootLayout />,
+      children: [
+        {
+          index: true,
+          element: <RestaurantHomepage />
+        },
         {
           path: 'restaurant-signup',
           element: <RestaurantSignup />
+        },
+        {
+          path: 'restaurant-meals',
+          element: <RestaurantMeals />
         }
       ]
     }

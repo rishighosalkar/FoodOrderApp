@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import Modal from "../../UI/Modal";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import SignupForm from "./RestaurantSignupForm";
+import RestaurantSignupForm from "./RestaurantSignupForm";
 import { useNavigate } from "react-router-dom";
 
 const RestaurantSignup = (props) =>{
 
-    const [restaurant, setRestaurant] = useState([]);
     const [subCategory, setSubCategory] = useState([]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -35,32 +34,6 @@ const RestaurantSignup = (props) =>{
 
     const confirmHandler = (newRestaurant) => {
 
-        alert('Restaurant Sign Up Page');
-        setRestaurant(newRestaurant);
-        const rest = {
-            "restaurantUsername": "vegSizzles",
-            "restaurantPassword": "VegSIzzles123",
-            "restaurantName": "Veg SIzzzle's",
-            "restaurantDescription": "Pure Veg",
-            "startTime": "08:00:00",
-            "endTime": "23:00:00",
-            "restaurantMeals": [
-              {
-                "name": "Veg Biryani",
-                "description": "Tasty Spicy",
-                "price": 300,
-                "categoryId": 1,
-                "subcategoryId": 4
-              }
-            ],
-            "address": {
-              "streetAddress": "Shop No 2, Meadows",
-              "city": "Thane",
-              "state": "Maharashtra",
-              "postalCode": "400610",
-              "country": "India"
-            }
-          }
         console.log('New restaurant details: ', newRestaurant);
         axios.post('https://localhost:7053/restaurant/registerRestaurant', newRestaurant,{
             headers: {
@@ -83,13 +56,13 @@ const RestaurantSignup = (props) =>{
             .catch(e => console.log(e));
         
     };
-    const hideRestaurantSignupHandler = () => {
-        navigate('/');
-    }
+
     return (       
-        <Modal onClose = {hideRestaurantSignupHandler}>
-            <SignupForm onConfirm={confirmHandler} onClose={hideRestaurantSignupHandler} subCategory={subCategory}/>
+        <Modal onClose = {props.onClose}>
+            <RestaurantSignupForm onConfirm={confirmHandler} onClose={props.onClose} subCategory={subCategory}/>
         </Modal>
+        // <RestaurantSignupForm onConfirm={confirmHandler} onClose={hideRestaurantSignupHandler} subCategory={subCategory}/>
+
     );
 }
 

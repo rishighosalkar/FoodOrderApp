@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classes from './HeaderLoginButton.module.css';
-import CartContext from '../../store/cart-context';
+import CartContext from '../../../store/cart-context';
 
 const HeaderLoginSignupButton = (props) => {
     const dispatch = useDispatch();

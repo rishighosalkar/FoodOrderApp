@@ -1,14 +1,16 @@
 import { Fragment } from 'react';
 
 import HeaderCartButton from './HeaderCartButton';
-import mealsImage from '../../assets/meals.jpg';
+import mealsImage from '../../../assets/meals.jpg';
 import classes from './Header.module.css';
 // import HeaderLoginButton from './HeaderLoginButton';
 import HeaderLoginSignupButton from './HeaderLoginSignupButton';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Header = (props) => {
-  
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+
   return (
     <Fragment>
       <header className={classes.header}>
@@ -18,7 +20,7 @@ const Header = (props) => {
           <h1>TastyMeals</h1>
         </NavLink>
         <div className={classes.buttons}>
-          <HeaderCartButton onClick={props.onShowCart} />
+          {isLoggedIn && <HeaderCartButton onClick={props.onShowCart} />}
           {/* <HeaderLoginButton onClick={props.onShowLogin} /> */}
           <HeaderLoginSignupButton onClick={props.onShowLoginSignup} />
         </div>

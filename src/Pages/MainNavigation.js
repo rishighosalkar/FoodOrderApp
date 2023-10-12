@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Header from "../components/Layout/Header";
-import Login from "../components/Login/Login";
-import LoginSignUp from "../components/LoginSignup/LoginSignupPage";
+import Header from "../components/User/Layout/Header";
+import Login from "../components/User/Login/Login";
+import LoginSignUp from "../components/User/LoginSignup/LoginSignupPage";
 import Cart from "../components/Cart/Cart";
 
 const MainNavigation = () => {
@@ -10,6 +10,7 @@ const MainNavigation = () => {
     const [loginIsShown, setLoginIsShown] = useState(false);
     const [loginSignupIsShown, setLoginSignupIsShown] = useState(false);
     const isLoggedIn = useSelector(state => state.isLoggedIn);
+    const isRestaurantPage = useSelector(state => state.isRestaurantPage);
     const showCartHandler = () => {
     if(!isLoggedIn)
     {
@@ -42,9 +43,10 @@ const MainNavigation = () => {
     return (
         <>
             {cartIsShown && (!loginIsShown) && <Cart onClose={hideCartHandler} />}
-            {loginIsShown && (!cartIsShown) && <Login onClose={hideLoginHandler} />}
+            {/* {loginIsShown && (!cartIsShown) && <Login onClose={hideLoginHandler} />} */}
             {loginSignupIsShown && (!cartIsShown) && <LoginSignUp onClose={hideLoginSignupHandler} />}
             <Header onShowCart={showCartHandler} onShowLogin={showLoginHandler} onShowLoginSignup={showLoginSignupHandler} />
+
         </>
     )
 }

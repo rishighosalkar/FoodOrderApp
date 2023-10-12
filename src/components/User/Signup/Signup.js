@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Modal from "../UI/Modal";
+import Modal from "../../UI/Modal";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import SignupForm from "./SignupForm";

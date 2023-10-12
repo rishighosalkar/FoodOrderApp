@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../UI/Modal";
+import Modal from "../../UI/Modal";
 import Login from "../Login/Login";
 import Signup from "../Signup/Signup";
 import classes from './LoginSignup.module.css';

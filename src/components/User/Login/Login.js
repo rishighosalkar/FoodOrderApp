@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Modal from "../UI/Modal";
+import Modal from "../../UI/Modal";
 import LoginForm from "./LoginForm";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -74,7 +74,10 @@ const Login = (props) => {
     };
 
     const navigateToRestaurantSignup = () => {
-        navigate('restaurant-signup', {
+        dispatch({type: 'MovedToRestaurant'})
+        // navigate('/');
+        // props.onClose();
+        navigate('/restaurant', {
             state : {
                 onClose: props.onClose,
             }

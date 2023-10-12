@@ -21,7 +21,7 @@ const MealItem = (props) => {
 
   const redirectToRestaurant = () => {
     console.log('Restaurant Id in meal item home page: ', props.restaurantId);
-    navigate('restaurant', {
+    navigate('restaurant-meals', {
       state:{
         restaurantId: props.restaurantId,
         restaurantName: props.restaurantName
