@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "../../UI/Modal";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import RestaurantSignupForm from "./RestaurantSignupForm";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +8,6 @@ const RestaurantSignup = (props) =>{
 
     const [subCategory, setSubCategory] = useState([]);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const fetchData = async () => {
         const response = await axios.get('https://localhost:7053/subcategory/get-all')
         .catch(e => console.log(e));
@@ -49,7 +47,7 @@ const RestaurantSignup = (props) =>{
                     // localStorage.setItem('userId', res.data.userId) 
                     // localStorage.setItem('token', res.data.accessToken)
                     //dispatch({type: 'login'});
-                    navigate('/')
+                    navigate('/restaurant')
                     //props.onClose();
                 }
             })

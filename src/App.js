@@ -1,15 +1,15 @@
 import Meals from './components/Meals/Meals';
 import Cart from './components/Cart/Cart';
 import CartProvider from './store/CartProvider';
-import LoginSignUp from './components/User/LoginSignup/LoginSignupPage';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './Pages/Root';
 import Homepage from './Pages/Homepage';
 import RestaurantMeals from './components/RestaurantMeals/RestaurantMeals';
 import RestaurantSignup from './components/Restaurant/Signup/RestaurantSignup';
 import RestaurantRootLayout from './Pages/RestaurantRoot';
-import RestaurantMainNavigation from './Pages/RestaurantMainNavigation';
 import RestaurantHomepage from './Pages/RestaurantHomePage';
+import Login from './components/User/Login/Login';
+import Signup from './components/User/Signup/Signup';
 
 function App() {
 
@@ -24,7 +24,11 @@ function App() {
         },
         {
           path: 'login',
-          element: <LoginSignUp />
+          element: <Login />
+        },
+        {
+          path: 'signup',
+          element: <Signup />
         },
         {
           path: 'restaurant-meals',
@@ -63,13 +67,6 @@ function App() {
 
   return (
     <CartProvider>
-      {/* {cartIsShown && (!loginIsShown) && <Cart onClose={hideCartHandler} />}
-      {loginIsShown && (!cartIsShown) && <Login onClose={hideLoginHandler} />}
-      {loginSignupIsShown && (!cartIsShown) && <LoginSignUp onClose={hideLoginSignupHandler} />}
-      <Header onShowCart={showCartHandler} onShowLogin={showLoginHandler} onShowLoginSignup={showLoginSignupHandler} />
-      <main>
-        <Meals />
-      </main> */}
       <RouterProvider router={router} />
     </CartProvider>
   );

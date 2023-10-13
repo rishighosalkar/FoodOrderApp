@@ -81,7 +81,8 @@ const SignupForm = (props) => {
             email: enteredEmail,
             password: enteredPassword,
             phone: enteredPhone,
-            address: address
+            address: address,
+            orders: []
         }
 
         props.onConfirm(user)

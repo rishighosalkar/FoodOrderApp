@@ -5,9 +5,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import classes from './Login.module.css'; 
+import Signup from "../Signup/Signup";
 
 const Login = (props) => {
     const [users, setUsers] = useState([]);
+    const [showSignUp, setShowSignUp] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const fetchData = async () => {
@@ -83,9 +85,19 @@ const Login = (props) => {
             }
         });
     }
+
+    const switchToSignUp = () => {
+        setShowSignUp(true);
+    }
     return (
         <Modal onClose = {props.onClose}>
-            <LoginForm onConfirm={confirmHandler} onClose={props.onClose} users={users}/>
+            <div className={classes.header}>
+                <span className={classes.headerAction}>Login</span>
+                <span> | </span>
+                <span onClick={switchToSignUp} className={classes.headerAction}>Sign Up</span>
+            </div>
+            {!showSignUp ? <LoginForm onConfirm={confirmHandler} onClose={props.onClose} users={users}/> 
+                         : <Signup onClose={props.onClose} />}
             <div>
                 <span>Want to register your restaurant?</span><span onClick={navigateToRestaurantSignup} className={classes.clickhere}>Click here</span>
             </div>

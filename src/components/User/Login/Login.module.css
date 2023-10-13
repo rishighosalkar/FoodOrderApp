@@ -1,7 +1,16 @@
+.header {
+  text-align: center;
+  justify-content: center;
+}
+
+.headerAction:hover{
+  cursor: pointer;
+}
+
 .form {
     margin: 1rem 0;
     height: 21rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
     /* overflow: auto; */
   }
   

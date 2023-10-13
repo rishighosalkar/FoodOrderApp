@@ -1,3 +1,12 @@
+.header {
+  text-align: center;
+  justify-content: center;
+}
+
+.headerAction:hover{
+  cursor: pointer;
+}
+
 .form {
     margin: 1rem 0;
     height: 37rem;

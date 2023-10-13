@@ -32,28 +32,33 @@ const AddMeals = (props) => {
         fetchData();
     }, []);
 
-    const onConfirmHandler = (newMeal) => {
+    const onConfirmHandler = async (newMeal) => {
         console.log('New Meal: ', newMeal);
 
-        axios.post('https://localhost:7053/meals/add-meal', newMeal)
-            .then(res => {
-                <Modal onClose={props.onClose}>
-                    <div>
-                        <div>Meal {res.data.meal.name} added for restaurant {res.data.meal.restaurantName}</div>
-                        <button onClick={props.onClick}>OK</button>
-                    </div>
-                </Modal>
-                navigate('/restaurant/restaurant-meals', {
-                    state:{
-                      restaurantId: res.data.restaurantData.restaurantId,
-                      restaurantName: res.data.restaurantData.restaurantName
-                    }
-                  });
-                // props.onClose();
-            })
+        const result = await axios.post('https://localhost:7053/meals/add-meal', newMeal)
             .catch(e => {
                 alert(e);
-            })
+        });
+        
+        //alert(result.data.statusCode);
+        if(result.data.statusCode === 200){
+          alert('Restaurant Id: ',result.data.meal.restaurantId);
+          navigate('/restaurant/restaurant-meals', {
+            state:{
+              restaurantId: localStorage.getItem('RestaurantId'),
+              restaurantName: localStorage.getItem('RestaurantName')//result.data.restaurantName
+            }
+          });
+        }
+        else if(result.data.statusCode === 409){
+          // <Modal onClose={props.onClose}>
+          //   <div>
+          //       <div>Meal was not added</div>
+          //       <button onClick={props.onClose}>OK</button>
+          //   </div>
+          // </Modal> 
+          alert('Meal with name already exist');
+        }
     }
 
     return(
