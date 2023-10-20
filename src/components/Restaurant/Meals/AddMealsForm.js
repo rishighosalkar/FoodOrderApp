@@ -30,7 +30,7 @@ const AddMealsForm = (props) => {
         const enteredmealSubCategory = mealSubCategoryInputRef.current.value;
         
         //alert('Meal Subcategory Category Value: ' + enteredmealSubCategory);
-        const enteredMealNameValid = !isEmpty(enteredMealName);
+        const enteredMealNameIsValid = !isEmpty(enteredMealName);
         const enteredMealDescIsValid = !isEmpty(enteredMealDesc);
         const enteredMealPriceValid = !isEmpty(enteredMealPrice);
         const enteredMealCategoryIsValid = !isEmpty(enteredMealCategory);
@@ -43,7 +43,7 @@ const AddMealsForm = (props) => {
             mealCategory: enteredMealCategory,
             mealSubCategory: enteredmealSubCategory,
         })
-        const formIsValid = enteredMealName && enteredMealDesc && enteredMealPrice && enteredMealCategoryIsValid && enteredmealSubCategoryIsValid;
+        const formIsValid = enteredMealNameIsValid && enteredMealDescIsValid && enteredMealPriceValid && enteredMealCategoryIsValid && enteredmealSubCategoryIsValid;
 
         if(!formIsValid)
         {return}
@@ -56,7 +56,8 @@ const AddMealsForm = (props) => {
             subcategoryId: enteredmealSubCategory,
             restaurantId: localStorage.getItem('RestaurantId'),
             restaurantName: localStorage.getItem('RestaurantName'),
-            order: []
+            orders: [],
+            carts: []
         }
 
         props.onConfirm(newMeal)

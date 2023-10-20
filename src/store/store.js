@@ -8,15 +8,17 @@ import {createStore} from 'redux';
 
 const Reducer = (state = {
                         isLoggedIn: false,
-                        isRestarantLoggedIn: false
+                        isRestarantLoggedIn: false,
+                        receivedOrder: false
                     }, action) => {
-    if(action.type === 'login'){
+    if(action.type === 'LOGIN'){
         return {
             isLoggedIn: true
         }
     }
-    if(action.type === 'logout'){
-        localStorage.removeItem('userId');
+    if(action.type === 'LOGOUT'){
+        localStorage.removeItem('UserId');
+        localStorage.removeItem('token');
         return {
             isLoggedIn: false
         }
@@ -31,6 +33,13 @@ const Reducer = (state = {
         return {
             isRestarantLoggedIn: false
         }
+    }
+
+    if(action.type === 'ORDERCONFIRMATION'){
+        alert(action.type);
+        const existingState = state;
+        existingState.receivedOrder = true;
+        return existingState;
     }
     return state;
 }

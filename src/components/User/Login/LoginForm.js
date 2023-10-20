@@ -26,25 +26,11 @@ const LoginForm = (props) => {
         const formIsValid = enteredUsernameIsValid && enteredPasswordIsValid;
         if(!formIsValid)
         {return}
-        if(props.users.find(user => user.username === enteredUserame))
-        {
-            const userId = props.users.find(user => user.username === enteredUserame).map(user => {return user.name})
-            props.onConfirm({
-                userId: userId,
-                username: enteredUserame,
-                password: enteredPassword,
-                isExisting: true,
-                isPasswordCorrect: props.users.find(user => user.username === enteredUserame 
-                                                            && user.password === enteredPassword)
-            })
-        }
-        else{
-            props.onConfirm({
-                username: enteredUserame,
-                password: enteredPassword,
-                isExisting: false 
-            })
-        }
+        
+        props.onConfirm({
+            username: enteredUserame,
+            password: enteredPassword,
+        })
     };
 
     const nameControlClass = `${classes.control } ${formValidity.name ? '': classes.invalid}`

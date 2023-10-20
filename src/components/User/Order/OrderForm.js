@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
-import classes from './Signup.module.css';
+import classes from './Order.module.css';
 
 const isEmpty = value => value.trim() === '';
 
-const SignupForm = (props) => {
+const OrderForm = (props) => {
     const [formValidity, setFormValidity] = useState({
         username: true,
         email:true,
@@ -89,10 +89,10 @@ const SignupForm = (props) => {
         props.onConfirm(user)
     };
 
-    const nameControlClass = `${classes.control } ${formValidity.name ? '': classes.invalid}`
-    const addressControlClass = `${classes.control } ${formValidity.address ? '': classes.invalid}`
+    const nameControlClass = `${classes.control } ${formValidity.name ? '': classes.invalid}`;
+    const addressControlClass = `${classes.control } ${formValidity.address ? '': classes.invalid}`;
 
-    return (
+    return(
         <form className={classes.form} onSubmit={confirmHandler}>
             <div className={nameControlClass}>
                 <label htmlFor='username'>Username</label>
@@ -134,24 +134,14 @@ const SignupForm = (props) => {
                 <input type='text' id='country' ref={countryInputRef}/>
                 {!formValidity.country && <p>Please enter a valid Country</p>}
             </div>
-            <div className={addressControlClass}>
-                <label htmlFor='password'>Password</label>
-                <input type='password' id='password' ref={passwordInputRef}/>
-                {!formValidity.password && <p>Please enter a valid password</p>}
-            </div>
-            <div className={addressControlClass}>
-                <label htmlFor='confirmpassword'>Confirm Password</label>
-                <input type='password' id='confirmpassword' ref={confirmPasswordInputRef}/>
-                {!formValidity.confirmPassword && <p>Please enter a valid password</p>}
-            </div>
             <div className={classes.actions}>
                 <button type='button' onClick={props.onClose}>
                 Cancel
                 </button>
-                <button className={classes.submit}>Register</button>
+                <button className={classes.submit}>Order</button>
             </div>
         </form>
     )
 }
 
-export default SignupForm;
+export default OrderForm;

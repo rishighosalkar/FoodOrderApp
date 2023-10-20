@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import Modal from "../../UI/Modal";
 import LoginForm from "./LoginForm";
 import axios from "axios";
@@ -6,79 +6,83 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import classes from './Login.module.css'; 
 import Signup from "../Signup/Signup";
+import CartContext from "../../../store/cart-context";
+import Cookies from "js-cookie";
 
 const Login = (props) => {
-    const [users, setUsers] = useState([]);
     const [showSignUp, setShowSignUp] = useState(false);
+    const loadedCart = [];
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const fetchData = async () => {
-        const response = await fetch('https://food-order-app-24c9e-default-rtdb.firebaseio.com/users.json')
-                .then();
-      if(!response.ok){
-        throw new Error('Something went wrong');
-      }
-      const responseData = await response.json();
+    const cartCtx = useContext(CartContext);
 
-      const loadedUsers = [];
-
-      for(const key in responseData)
-      {
-        loadedUsers.push({
-          id: key,
-          username: responseData[key].username,
-          password: responseData[key].password,
-        })
-      }
-
-      setUsers(loadedUsers);
-    }
-    useEffect(() => {
-        fetchData();
-    }, [])
-    const confirmHandler = (data) => {
-        if(!data.isExisting)
-        {
-            // const newUser = {
-            //     username: data.username,
-            //     password: data.password
-            // }
-            // axios.post('https://food-order-app-24c9e-default-rtdb.firebaseio.com/users.json', newUser)
-            //     .then(res => {
-            //         console.log(res.data.name)
-            //         dispatch({type: 'login'});
-            //         props.onClose()
-            //         localStorage.setItem('userId', res.data.name)
-            //     })
-            //     .catch(e => console.log(e));
-            const newUser = {
-                email: data.username,
-                password: data.password
+    const fetchCartData = async() => {
+        const config = {
+            headers:{
+              Authorization: 'Bearer ' + localStorage.getItem('token'),
             }
-            axios.post('https://localhost:7053/user/login', newUser)
-                .then(res => {
-                    console.log(res.data.userData)
-                    dispatch({type: 'login'});
-                    props.onClose()
-                    localStorage.setItem('userId', res.data.userId)
-                    localStorage.setItem('token', res.data.accessToken)
-                })
-                .catch(e => console.log(e));
-        }
-        else if(data.isPasswordCorrect)
+          };
+        const url = 'https://localhost:7053/cart?userId=' +  localStorage.getItem('UserId');
+        const res = await axios.get(url, config);
+    
+        if(res.data.statusCode === 200)
         {
-            localStorage.setItem('userId', data.name)
-            dispatch({type: 'login'});
-            props.onClose();
+            const resCart = res.data.cartItems;
+      
+            for(const key in resCart)
+            {
+              loadedCart.push({
+                cartId: resCart[key].cartId,
+                userId: resCart[key].userId,
+                mealId: resCart[key].mealId,
+                mealName: resCart[key].mealName,
+                quantity: resCart[key].quantity,
+                totalPrice: resCart[key].totalPrice
+              });
+            }
+                  
         }
-        else
-            alert('incorrect password');
+    }
+
+    const confirmHandler = async(data) => {
+       const newUser = {
+            email: data.username,
+            password: data.password
+        }
+        var res = await axios.post('https://localhost:7053/user/login', newUser)
+                            .catch(e => console.log(e));
+        
+        if(res.data.statusCode === 200)
+        {
+            dispatch({type: 'LOGIN'});
+            localStorage.setItem('UserId', res.data.userData.userId);
+            localStorage.setItem('token', res.data.accessToken);
+            const address = res.data.userData.address
+            await fetchCartData();
+            Cookies.set('cartData', JSON.stringify(loadedCart), {expires: 1});
+            Cookies.set('userAddress', JSON.stringify(address));
+            const cartData = JSON.parse(Cookies.get('cartData'));
+            cartData.map((item, index) => (
+                cartCtx.addItem({
+                    id: item.cartId,
+                    name: item.mealName,
+                    amount: item.quantity,
+                    price: item.totalPrice,
+                  })              
+            ))
+            props.onClose()
+        }
+        else if(res.data.statusCode === 404)
+        {
+            alert('Incorrect username/password!');
+        }
+        else{
+            alert('Internal server error');
+        }
     };
 
     const navigateToRestaurantSignup = () => {
         dispatch({type: 'MovedToRestaurant'})
-        // navigate('/');
-        // props.onClose();
         navigate('/restaurant', {
             state : {
                 onClose: props.onClose,
@@ -96,7 +100,7 @@ const Login = (props) => {
                 <span> | </span>
                 <span onClick={switchToSignUp} className={classes.headerAction}>Sign Up</span>
             </div>
-            {!showSignUp ? <LoginForm onConfirm={confirmHandler} onClose={props.onClose} users={users}/> 
+            {!showSignUp ? <LoginForm onConfirm={confirmHandler} onClose={props.onClose} /> 
                          : <Signup onClose={props.onClose} />}
             <div>
                 <span>Want to register your restaurant?</span><span onClick={navigateToRestaurantSignup} className={classes.clickhere}>Click here</span>

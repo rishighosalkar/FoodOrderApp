@@ -10,6 +10,8 @@ import RestaurantRootLayout from './Pages/RestaurantRoot';
 import RestaurantHomepage from './Pages/RestaurantHomePage';
 import Login from './components/User/Login/Login';
 import Signup from './components/User/Signup/Signup';
+import Order from './components/User/Order/Order';
+import Payment from './components/Payment/Payment';
 
 function App() {
 
@@ -42,6 +44,14 @@ function App() {
           path: 'cart',
           element: <Cart />
         },
+        {
+          path: 'order',
+          element: <Order />
+        },
+        {
+          path: 'payment',
+          element: <Payment />
+        }
         
       ]
     },

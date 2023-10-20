@@ -59,17 +59,17 @@ const Checkout = (props) => {
         </div>
         <div className={addressControlClass}>
             <label htmlFor='address'>Address</label>
-            <input type='text' id='address' ref={addressInputRef}/>
+            <input type='text' id='address' ref={addressInputRef} value={props.user.streetAddress ? props.user.streetAddress : ''}/>
             {!formValidity.address && <p>Please enter a valid address</p>}
         </div>
         <div className={pincodeControlClass}>
             <label htmlFor='pincode'>Pin Code</label>
-            <input type='text' id='pincode' ref={pincodeInputRef}/>
+            <input type='text' id='pincode' ref={pincodeInputRef} value={props.user.postalCode ? props.user.postalCode : ''}/>
             {!formValidity.pincode && <p>Please enter a valid pincode</p>}
         </div>
         <div className={cityControlClass}>
             <label htmlFor='city'>City</label>
-            <input type='text' id='city' ref={cityInputRef} />
+            <input type='text' id='city' ref={cityInputRef} value={props.user.city ? props.user.city : ''}/>
             {!formValidity.city && <p>Please enter a valid city</p>}
         </div>
         <div className={classes.actions}>
