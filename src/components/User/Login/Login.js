@@ -37,7 +37,8 @@ const Login = (props) => {
                 mealId: resCart[key].mealId,
                 mealName: resCart[key].mealName,
                 quantity: resCart[key].quantity,
-                totalPrice: resCart[key].totalPrice
+                totalPrice: resCart[key].totalPrice,
+                addedAt: resCart[key].addedAt
               });
             }
                   
@@ -57,19 +58,23 @@ const Login = (props) => {
             dispatch({type: 'LOGIN'});
             localStorage.setItem('UserId', res.data.userData.userId);
             localStorage.setItem('token', res.data.accessToken);
-            const address = res.data.userData.address
+            const user = res.data.userData;
+            Cookies.set('userData', JSON.stringify(user));
             await fetchCartData();
-            Cookies.set('cartData', JSON.stringify(loadedCart), {expires: 1});
-            Cookies.set('userAddress', JSON.stringify(address));
-            const cartData = JSON.parse(Cookies.get('cartData'));
-            cartData.map((item, index) => (
-                cartCtx.addItem({
-                    id: item.cartId,
-                    name: item.mealName,
-                    amount: item.quantity,
-                    price: item.totalPrice,
-                  })              
-            ))
+            alert('Cart length: '+ loadedCart.length)
+            if(loadedCart.length > 0)
+            {
+                Cookies.set('cartData', JSON.stringify(loadedCart), {expires: 1});
+                const cartData = JSON.parse(Cookies.get('cartData'));
+                cartData.map((item, index) => (
+                    cartCtx.addItem({
+                        id: item.cartId,
+                        name: item.mealName,
+                        amount: item.quantity,
+                        price: item.totalPrice,
+                    })              
+                ))
+            }
             props.onClose()
         }
         else if(res.data.statusCode === 404)

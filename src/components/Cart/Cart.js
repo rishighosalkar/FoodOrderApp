@@ -8,11 +8,16 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import PaymentMethod from './PaymentMethod';
 import { useDispatch } from 'react-redux';
+import { fetchToken } from '../../firebase';
+import axios from 'axios';
 
 const Cart = (props) => {
   const [isCheckOut, setIsCheckOut] = useState(false);
   const [isPayment, setIsPayment] = useState(false);
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState([]);
+  const [isTokenFound, setTokenFound] = useState(false);
+  const [isOrderConfirmed, setOrderConfirmed] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartCtx = useContext(CartContext);
@@ -21,7 +26,7 @@ const Cart = (props) => {
   const hasItems = cartCtx.items.length > 0;
 
   const fetchUserData = () => {
-    const userData = JSON.parse(Cookies.get('userAddress'));
+    const userData = JSON.parse(Cookies.get('userData'));
     if(userData != null)
       setUser(userData);
     console.log('UserData checkout', user);
@@ -29,10 +34,15 @@ const Cart = (props) => {
 
   useEffect(() => {
     // fetchUserData();
-    const userData = JSON.parse(Cookies.get('userAddress'));
+    const userData = JSON.parse(Cookies.get('userData'));
+    if(hasItems)
+    {  
+      const cartData = JSON.parse(Cookies.get('cartData'));
+      setCart(cartData);
+    }
     if(userData != null)
       setUser(userData);
-    console.log('UserData checkout', user);
+    
   }, [])
 
   const cartItemRemoveHandler = (id) => {
@@ -47,14 +57,52 @@ const Cart = (props) => {
     setIsCheckOut(true);
   }
 
-  const checkOrderConfirmation = () => {
+  
+  const paymentHandler = async() => {
     dispatch({type: 'ORDERCONFIRMATION'});
-  }
-  const paymentHandler = () => {
-    const isOrderConfirmed = checkOrderConfirmation();
+    const token = await fetchToken(setTokenFound);
+    if(token){
+      const orderData = {
+        userId: user.userId,
+        orderDate: new Date().toISOString(),
+        deliveryAddress: 'test',
+        totalAmount: parseInt(cartCtx.totalAmount),
+        paymentMethod: 'CARD',
+        orderStatus: 'PENDING'
+      }
+      const notificationParams = {
+        deviceId: token,
+        title: 'Received Order',
+        message: 'Test',
+        cartDetails: cart
+      }
+      console.log('orderData', orderData)
+      const params = {
+        order: orderData,
+        notification: notificationParams,
+        cart: cart
+      }
+
+      console.log('Parameters', params);
+
+      const res = await axios.post('https://localhost:7053/order/add', params)
+                        .catch(e => console.log(e));
+
+      console.log(res.data);
+      alert('Order status code',res.data.statusCode)
+      if(res.data.statusCode === 200)
+      {
+        console.log(res.data.message);
+        Cookies.remove('cartData');
+        cartCtx.clearCart();
+        props.onClose();
+      }
+
+    }
     //setIsPayment(true);
-    setIsCheckOut(false);
+    // setIsCheckOut(false);
   }
+  
   const submitOrderHandler = (paymentDetails) => {
     // fetch('https://food-order-app-24c9e-default-rtdb.firebaseio.com/orders.json',{
     //   method: 'POST',
@@ -97,7 +145,7 @@ const Cart = (props) => {
         <span>{totalAmount}</span>
       </div>
       {isCheckOut && <CheckOut onConfirm={paymentHandler} onCancel={props.onClose} user={user}/>}
-      {isPayment && <PaymentMethod onConfirm={submitOrderHandler} onCancel={props.onClose}/>}
+      {/* {isPayment && <PaymentMethod onConfirm={submitOrderHandler} onCancel={props.onClose}/>} */}
       {!isCheckOut && !isPayment && <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>
           Close

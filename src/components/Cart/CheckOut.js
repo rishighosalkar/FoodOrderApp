@@ -54,22 +54,22 @@ const Checkout = (props) => {
         <form className={classes.form} onSubmit={confirmHandler}>
         <div className={nameControlClass}>
             <label htmlFor='name'>Your Name</label>
-            <input type='text' id='name' ref={nameInputRef}/>
+            <input type='text' id='name' ref={nameInputRef} value={props.user.userName ? props.user.userName : ''}/>
             {!formValidity.name && <p>Please enter a valid name</p>}
         </div>
         <div className={addressControlClass}>
             <label htmlFor='address'>Address</label>
-            <input type='text' id='address' ref={addressInputRef} value={props.user.streetAddress ? props.user.streetAddress : ''}/>
+            <input type='text' id='address' ref={addressInputRef} value={props.user.address.streetAddress ? props.user.address.streetAddress : ''}/>
             {!formValidity.address && <p>Please enter a valid address</p>}
         </div>
         <div className={pincodeControlClass}>
             <label htmlFor='pincode'>Pin Code</label>
-            <input type='text' id='pincode' ref={pincodeInputRef} value={props.user.postalCode ? props.user.postalCode : ''}/>
+            <input type='text' id='pincode' ref={pincodeInputRef} value={props.user.address.postalCode ? props.user.address.postalCode : ''}/>
             {!formValidity.pincode && <p>Please enter a valid pincode</p>}
         </div>
         <div className={cityControlClass}>
             <label htmlFor='city'>City</label>
-            <input type='text' id='city' ref={cityInputRef} value={props.user.city ? props.user.city : ''}/>
+            <input type='text' id='city' ref={cityInputRef} value={props.user.address.city ? props.user.address.city : ''}/>
             {!formValidity.city && <p>Please enter a valid city</p>}
         </div>
         <div className={classes.actions}>

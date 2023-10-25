@@ -5,6 +5,7 @@ import CartContext from '../../store/cart-context';
 import { BiRupee } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const MealItem = (props) => {
   const cartCtx = useContext(CartContext);
@@ -12,13 +13,6 @@ const MealItem = (props) => {
   const price = `${props.price.toFixed(2)}`;
 
   const addToCartHandler = async(amount) => {
-    cartCtx.addItem({
-      id: props.id,
-      name: props.name,
-      amount: amount,
-      price: props.price,
-    });
-
     const cart = {
       'userId': parseInt(localStorage.getItem('UserId')),
       'mealId': props.id,
@@ -29,12 +23,59 @@ const MealItem = (props) => {
     }
 
     console.log('Cart: ',cart);
+    const config = {
+      headers:{
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }
+    };
 
-    var res = await axios.post('https://localhost:7053/cart/add', cart)
+    var res = await axios.post('https://localhost:7053/cart/add', cart, config)
                           .catch(e => alert(e));
     
     if(res.data.statusCode === 200)
     {
+      
+      const resCart = res.data.cartItems;
+      if(cartCtx.items.length === 0)
+      {
+        const loadedCart = [];
+
+        for(const key in resCart)
+        {
+          loadedCart.push({
+            cartId: resCart[key].cartId,
+            userId: resCart[key].userId,
+            mealId: resCart[key].mealId,
+            mealName: resCart[key].mealName,
+            quantity: resCart[key].quantity,
+            totalPrice: resCart[key].totalPrice,
+            addedAt: resCart[key].addedAt
+          });
+        }
+        Cookies.set('cartData', JSON.stringify(loadedCart), {expires: 1});
+      }
+      else{
+        const loadedCart = JSON.parse(Cookies.get('cartData'));
+        for(const key in resCart)
+        {
+          loadedCart.push({
+            cartId: resCart[key].cartId,
+            userId: resCart[key].userId,
+            mealId: resCart[key].mealId,
+            mealName: resCart[key].mealName,
+            quantity: resCart[key].quantity,
+            totalPrice: resCart[key].totalPrice,
+            addedAt: resCart[key].addedAt
+          });
+        }
+        Cookies.set('cartData', JSON.stringify(loadedCart), {expires: 1});
+      }
+      cartCtx.addItem({
+        id: props.id,
+        name: props.name,
+        amount: amount,
+        price: props.price,
+      });
       alert('Meal added to the cart!');
     }
     else{

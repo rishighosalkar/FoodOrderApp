@@ -22,7 +22,7 @@ const RestaurantMeals = () => {
         console.log('resData', responseData);
         for(const key in responseData)
         {
-            console.log('resdata[key]',responseData[key].name);
+            // console.log('resdata[key]',responseData[key].name);
             loadedMeals.push({
             id: key,
             name: responseData[key].name,
@@ -33,12 +33,12 @@ const RestaurantMeals = () => {
             })
         }
         setMeals(loadedMeals);
-        console.log('Meals', meals);
+        // console.log('Meals', meals);
         setIsLoading(false);
     }
     
     useEffect(()=>{
-        console.log('Restaurant Id in restaurant page : ', location.state.restaurantId);
+        // console.log('Restaurant Id in restaurant page : ', location.state.restaurantId);
         fetchMeals(location.state.restaurantId)
                     .catch( (e) => setIsLoading(false))
     }, []);

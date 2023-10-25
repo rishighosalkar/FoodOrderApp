@@ -24,7 +24,7 @@ const Signup = (props) =>{
             localStorage.setItem('userId', res.data.userId)
             localStorage.setItem('token', res.data.accessToken)
             //dispatch({type: 'login'});
-            //props.onClose();
+            props.onClose();
         }
         else if(res.data.statusCode === 409){
             alert('User already exist');

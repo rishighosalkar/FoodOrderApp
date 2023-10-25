@@ -1,16 +1,17 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from "../components/User/Layout/Header";
 import Login from "../components/User/Login/Login";
 import Cart from "../components/Cart/Cart";
 import Signup from '../components/User/Signup/Signup';
+import Cookies from 'js-cookie';
 
 const MainNavigation = () => {
     const [cartIsShown, setCartIsShown] = useState(false);
     const [loginIsShown, setLoginIsShown] = useState(false);
     const [signupIsShown, setSignupIsShown] = useState(false);
     const isLoggedIn = useSelector(state => state.isLoggedIn);
-
+    const dispatch = useDispatch();
     const showCartHandler = () => {
     if(!isLoggedIn)
     {
@@ -39,6 +40,12 @@ const MainNavigation = () => {
     const hideSignupHandler = () => {
         setSignupIsShown(false);
     }
+
+    useEffect(()=>{
+        const loggedInCookie = Cookies.get('UserId');
+        if(loggedInCookie)
+            dispatch({type: 'LOGIN'});
+    }, [dispatch])
 
     return (
         <>
