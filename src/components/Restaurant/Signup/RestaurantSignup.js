@@ -30,28 +30,29 @@ const RestaurantSignup = (props) =>{
         fetchData();
     }, []);
 
-    const confirmHandler = (newRestaurant) => {
+    const confirmHandler = async(newRestaurant) => {
 
         console.log('New restaurant details: ', newRestaurant);
-        axios.post('https://localhost:7053/restaurant/registerRestaurant', newRestaurant,{
+        const res = await axios.post('https://localhost:7053/restaurant/registerRestaurant', newRestaurant,{
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
             }
           })
-            .then(res => {
-                console.log('Response data', res.data);
-                if(res.data.statusCode === 409)
-                    alert('Restaurant already exist');
-                else{
-                    console.log(res.data)
-                    // localStorage.setItem('userId', res.data.userId) 
-                    // localStorage.setItem('token', res.data.accessToken)
-                    //dispatch({type: 'login'});
-                    navigate('/restaurant')
-                    //props.onClose();
-                }
-            })
             .catch(e => console.log(e));
+            
+        if(res.data.statusCode === 200){
+            console.log('Response data', res.data);
+            // localStorage.setItem('userId', res.data.userId)
+            // localStorage.setItem('token', res.data.accessToken)
+            //dispatch({type: 'login'});
+            props.onClose();
+        }
+        else if(res.data.statusCode === 409){
+            alert('Restaurant already exist');
+        }
+        else{
+            alert('500 Internal Server Error');
+        }
         
     };
 
