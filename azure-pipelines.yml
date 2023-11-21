@@ -31,13 +31,13 @@ steps:
 #   displayName: 'npm build'
 #   #workingDirectory: $(directory)
  
-- task: CopyFiles@2
-  displayName: 'Copy files'
-  inputs:
-    sourceFolder: 'build' 
-    Contents: '**/*'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    cleanTargetFolder: true
+# - task: CopyFiles@2
+#   displayName: 'Copy files'
+#   inputs:
+#     sourceFolder: 'build' 
+#     Contents: '**/*'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#     cleanTargetFolder: true
  
 - task: ArchiveFiles@2
   displayName: 'Archive files'
