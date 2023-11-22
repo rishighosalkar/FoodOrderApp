@@ -35,7 +35,7 @@ steps:
   displayName: 'Copy files'
   inputs:
     # sourceFolder: 'build' 
-    Contents: '**'
+    Contents: '**/* !**/node_modules/**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     cleanTargetFolder: true
  
