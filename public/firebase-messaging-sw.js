@@ -4,13 +4,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compa
 
 // Initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = {
-  apiKey: conf.apiKey,
-  authDomain: conf.authDomain, 
+  apiKey: config.apiKey,
+  authDomain: config.authDomain, 
 //   databaseURL: config.databaseURL,
-  projectId: conf.projectId,
-  storageBucket: conf.storageBucket,
-  messagingSenderId: conf.messagingSenderId,
-  appId: conf.appId,
+  projectId: config.projectId,
+  storageBucket: config.storageBucket,
+  messagingSenderId: config.messagingSenderId,
+  appId: config.appId,
 //   measurementId: process.env.measurementId
   };
 
